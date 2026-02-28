@@ -111,10 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const msgDiv = document.createElement('div');
         msgDiv.classList.add('chat-msg', sender);
 
-        // Basic markdown conversion (links and bold)
+        // Basic markdown conversion (bold, markdown links, then raw URLs)
         let formattedText = text
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+            .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+            .replace(/(?<!\href=")(https?:\/\/[^\s<>"']+)/g, (url) => {
+                try {
+                    const hostname = new URL(url).hostname.replace('www.', '');
+                    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${hostname}</a>`;
+                } catch {
+                    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+                }
+            });
 
         msgDiv.innerHTML = formattedText;
         chatMessages.appendChild(msgDiv);
