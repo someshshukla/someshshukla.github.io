@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatMessages = document.getElementById('chatbot-messages');
 
     // API Endpoint (change this if deployed)
-    const API_URL = 'http://localhost:3000/api/chat';
+    const API_URL = 'https://portfolio-chatbot-backend-fy9h.onrender.com/api/chat';
 
     // Store conversation history
     let messagesHistory = [];
@@ -45,6 +45,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show typing indicator
         const typingElement = showTypingIndicator();
 
+        // Cold start timer — show a message if response takes too long
+        const coldStartTimer = setTimeout(() => {
+            const coldMsg = document.createElement('div');
+            coldMsg.classList.add('chat-msg', 'bot');
+            coldMsg.id = 'cold-start-msg';
+            coldMsg.style.fontSize = '12px';
+            coldMsg.style.opacity = '0.7';
+            coldMsg.textContent = '⏳ Server is waking up, this may take up to 30 seconds...';
+            chatMessages.appendChild(coldMsg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 5000);
+
         try {
             const response = await fetch(API_URL, {
                 method: 'POST',
@@ -53,6 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify({ messages: messagesHistory })
             });
+
+            clearTimeout(coldStartTimer);
+            const coldMsg = document.getElementById('cold-start-msg');
+            if (coldMsg) coldMsg.remove();
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -83,8 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Error fetching chat response:', error);
+            clearTimeout(coldStartTimer);
+            const coldMsg = document.getElementById('cold-start-msg');
+            if (coldMsg) coldMsg.remove();
             typingElement.remove();
-            appendMessage('bot', "Sorry, I'm having trouble connecting to the server. Please try again later.");
+            appendMessage('bot', "Oops! The server might still be waking up. Please try again in a few seconds. 🔄");
         }
     }
 
