@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="css/flaticon.css">
   <link rel="stylesheet" href="css/icomoon.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chat.css">
 
   <style>
     /*======================================
@@ -651,6 +652,30 @@
       </div>
   </section>
 
+  <!-- Chatbot UI -->
+  <div class="chatbot-wrapper" id="chatbot-wrapper">
+    <!-- Toggler Button -->
+    <button class="chatbot-toggler" id="chatbot-toggler">
+      <span class="fa-comment-alt" style="font-size: 26px; line-height: 1;">💬</span>
+      <span class="fa-times" style="font-size: 32px; line-height: 1;">&times;</span>
+    </button>
+    
+    <!-- Chat Window -->
+    <div class="chatbot-window" id="chatbot-window">
+      <div class="chatbot-header">
+        <h3>Ask me anything!</h3>
+        <button class="close-btn" id="chatbot-close">&times;</button>
+      </div>
+      <div class="chatbot-messages" id="chatbot-messages">
+        <div class="chat-msg bot">Hello! I'm Somesh's AI assistant. How can I help you today?</div>
+      </div>
+      <div class="chatbot-input">
+        <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off">
+        <button id="chat-send-btn">➤</button>
+      </div>
+    </div>
+  </div>
+
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
       <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
@@ -672,6 +697,7 @@
   <script src="js/scrollax.min.js"></script>
 
   <script src="js/main.js"></script>
+  <script src="js/chat.js"></script>
 
 </body>
 
