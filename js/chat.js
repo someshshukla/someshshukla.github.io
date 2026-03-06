@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotWrapper = document.getElementById('chatbot-wrapper');
     const chatbotToggler = document.getElementById('chatbot-toggler');
     const closeBtn = document.getElementById('chatbot-close');
-    const closeBtnMobile = document.getElementById('chatbot-close-mobile');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('chat-send-btn');
     const chatMessages = document.getElementById('chatbot-messages');
@@ -47,11 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     closeBtn.addEventListener('click', closeChat);
-
-    // Mobile close button
-    if (closeBtnMobile) {
-        closeBtnMobile.addEventListener('click', closeChat);
-    }
 
     // Backdrop click closes chat
     if (backdrop) {

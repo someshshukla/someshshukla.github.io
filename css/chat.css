@@ -33,18 +33,6 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-.chatbot-toggler .fa-times {
-  display: none;
-}
-
-.chatbot-wrapper.chat-active .chatbot-toggler .fa-comment-alt {
-  display: none;
-}
-
-.chatbot-wrapper.chat-active .chatbot-toggler .fa-times {
-  display: block;
-}
-
 /* Chat Window */
 .chatbot-window {
   position: absolute;
@@ -58,9 +46,9 @@
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(20px) scale(0.9);
+  transform: translateY(20px) scale(0.95);
   transform-origin: bottom right;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   flex-direction: column;
 }
@@ -69,6 +57,13 @@
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) scale(1);
+}
+
+/* Hide toggler when chat is active (both desktop & mobile) */
+.chatbot-wrapper.chat-active .chatbot-toggler {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.5);
 }
 
 /* Header */
@@ -88,12 +83,47 @@
   color: #000;
 }
 
+/* Single close button — transparent, no white bg */
 .chatbot-header .close-btn {
   background: none;
   border: none;
   color: #000;
-  font-size: 20px;
+  font-size: 24px;
   cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s;
+  line-height: 1;
+}
+
+.chatbot-header .close-btn:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+/* Branded header styles */
+.chatbot-header-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.chatbot-header-brand .brand-subtitle {
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.chatbot-header-brand .brand-title {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 /* Messages Area */
@@ -257,47 +287,6 @@
   cursor: not-allowed;
 }
 
-/* Branded header styles */
-.chatbot-header-brand {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.chatbot-header-brand .brand-subtitle {
-  font-size: 10px;
-  font-weight: 500;
-  opacity: 0.7;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  line-height: 1;
-}
-
-.chatbot-header-brand .brand-title {
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.3;
-}
-
-.chatbot-header .close-btn-mobile {
-  background: rgba(0, 0, 0, 0.15);
-  border: none;
-  color: #000;
-  font-size: 22px;
-  cursor: pointer;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.2s;
-}
-
-.chatbot-header .close-btn-mobile:hover {
-  background: rgba(0, 0, 0, 0.25);
-}
-
 /* Backdrop overlay */
 .chatbot-backdrop {
   display: none;
@@ -306,7 +295,7 @@
   background: rgba(0, 0, 0, 0.6);
   z-index: 9999;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
 }
@@ -315,7 +304,9 @@
   opacity: 1;
 }
 
-/* Responsive — Mobile bottom sheet */
+/* =========================================
+   MOBILE — Bottom Sheet
+========================================= */
 @media (max-width: 480px) {
   .chatbot-window {
     position: fixed;
@@ -326,18 +317,19 @@
     height: 85vh;
     border-radius: 16px 16px 0 0;
     transform: translateY(100%);
+    opacity: 1;
     border: none;
-    box-shadow: 0 -8px 40px rgba(255, 189, 57, 0.25);
+    box-shadow: 0 -8px 40px rgba(255, 189, 57, 0.15);
     z-index: 10001;
+    transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .chatbot-wrapper.chat-active .chatbot-window {
     transform: translateY(0);
-    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .chatbot-header {
-    padding: 14px 16px;
+    padding: 18px 16px 14px 16px;
     border-radius: 16px 16px 0 0;
     position: relative;
   }
@@ -355,14 +347,6 @@
     border-radius: 2px;
   }
 
-  .chatbot-header .close-btn {
-    display: none;
-  }
-
-  .chatbot-header .close-btn-mobile {
-    display: flex;
-  }
-
   .chatbot-messages {
     height: calc(85vh - 130px);
     padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
@@ -375,12 +359,6 @@
   .chatbot-toggler {
     width: 50px;
     height: 50px;
-    bottom: 15px;
-    right: 15px;
-  }
-
-  .chatbot-wrapper.chat-active .chatbot-toggler {
-    display: none;
   }
 
   /* Show backdrop on mobile */
