@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function triggerResumeDownload() {
         // The resume link from index.html (Drive link)
-        const resumeUrl = 'https://drive.google.com/file/d/100rG_-Wn4gFZeXx3nsfljyOaT86XMCyy/view?usp=sharing';
+        const resumeUrl = 'https://drive.google.com/file/d/1BCskqNW6aLjrMC4izJvab8hfT8gYGZF3/view';
         window.open(resumeUrl, '_blank');
     }
 });
