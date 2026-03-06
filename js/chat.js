@@ -2,9 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotWrapper = document.getElementById('chatbot-wrapper');
     const chatbotToggler = document.getElementById('chatbot-toggler');
     const closeBtn = document.getElementById('chatbot-close');
+    const closeBtnMobile = document.getElementById('chatbot-close-mobile');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('chat-send-btn');
     const chatMessages = document.getElementById('chatbot-messages');
+    const backdrop = document.getElementById('chatbot-backdrop');
 
     // API Endpoint (change this if deployed)
     const API_URL = 'https://portfolio-chatbot-backend-fy9h.onrender.com/api/chat';
@@ -12,14 +14,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // Store conversation history
     let messagesHistory = [];
 
+    // Helper to check if mobile
+    function isMobile() {
+        return window.innerWidth <= 480;
+    }
+
+    // Open chat
+    function openChat() {
+        chatbotWrapper.classList.add('chat-active');
+        if (isMobile() && backdrop) {
+            backdrop.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    // Close chat
+    function closeChat() {
+        chatbotWrapper.classList.remove('chat-active');
+        if (backdrop) {
+            backdrop.classList.remove('active');
+        }
+        document.body.style.overflow = '';
+    }
+
     // Toggle chat window
     chatbotToggler.addEventListener('click', () => {
-        chatbotWrapper.classList.toggle('chat-active');
+        if (chatbotWrapper.classList.contains('chat-active')) {
+            closeChat();
+        } else {
+            openChat();
+        }
     });
 
-    closeBtn.addEventListener('click', () => {
-        chatbotWrapper.classList.remove('chat-active');
-    });
+    closeBtn.addEventListener('click', closeChat);
+
+    // Mobile close button
+    if (closeBtnMobile) {
+        closeBtnMobile.addEventListener('click', closeChat);
+    }
+
+    // Backdrop click closes chat
+    if (backdrop) {
+        backdrop.addEventListener('click', closeChat);
+    }
 
     // Handle Enter key
     chatInput.addEventListener('keypress', (e) => {

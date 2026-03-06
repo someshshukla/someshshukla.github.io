@@ -660,11 +660,18 @@
       <span class="fa-times" style="font-size: 32px; line-height: 1;">&times;</span>
     </button>
 
+    <!-- Backdrop overlay for mobile -->
+    <div class="chatbot-backdrop" id="chatbot-backdrop"></div>
+
     <!-- Chat Window -->
     <div class="chatbot-window" id="chatbot-window">
       <div class="chatbot-header">
-        <h3>Ask me anything!</h3>
+        <div class="chatbot-header-brand">
+          <span class="brand-subtitle">Somesh Shukla's Portfolio</span>
+          <span class="brand-title">AI Assistant</span>
+        </div>
         <button class="close-btn" id="chatbot-close">&times;</button>
+        <button class="close-btn-mobile" id="chatbot-close-mobile">&times;</button>
       </div>
       <div class="chatbot-messages" id="chatbot-messages">
         <div class="chat-msg bot">Hello! I'm Somesh's AI assistant. How can I help you today?</div>
